@@ -1,16 +1,7 @@
-# flutter_state
+# Flutter of Simple Measure Converter
 
-A new Flutter project.
+Sample Screenshoot :
 
-## Getting Started
+![alt text](https://github.com/satriyarifki/flutter_state-ConversionMeasure/blob/master/img/ss1.jpg)
+![alt text](https://github.com/satriyarifki/flutter_state-ConversionMeasure/blob/master/img/ss2.jpg)
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
