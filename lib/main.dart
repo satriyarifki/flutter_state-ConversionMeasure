@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -35,6 +36,9 @@ class _MyHomePageState extends State<MyHomePage> {
   final inputController = TextEditingController();
   String newValue = "inch";
   double result = 0;
+  ValueNotifier<double> _result = ValueNotifier<double>(0);
+
+  List<String> listHistory = <String>[];
 
   var ListItem = [
     'inch',
@@ -51,11 +55,20 @@ class _MyHomePageState extends State<MyHomePage> {
         input = double.parse(inputController.text);
       }
 
-      if (newValue == "inch")
+      if (newValue == "inch") {
         result = input * 0.393701;
-      else
+        _result.value = result;
+        listHistory.add(newValue.toString() + " : " + result.toString());
+      } else {
         result = input * 0.0328084;
+        _result.value = result;
+        listHistory.add(newValue.toString() + " : " + result.toString());
+      }
     });
+  }
+
+  void makeListHistory() {
+    listHistory.add(result.toString());
   }
 
   @override
@@ -70,6 +83,8 @@ class _MyHomePageState extends State<MyHomePage> {
             children: <Widget>[
               Container(
                   width: 200,
+                  height: 70,
+                  margin: EdgeInsets.symmetric(vertical: 30),
                   child: TextField(
                     controller: inputController,
                     keyboardType: TextInputType.number,
@@ -93,7 +108,25 @@ class _MyHomePageState extends State<MyHomePage> {
               )),
               Container(
                 child: Text(result.toString()),
-              )
+              ),
+              Container(
+                child: Text(
+                  "Konversi",
+                  style: TextStyle(fontSize: 15),
+                ),
+              ),
+              SizedBox(height: 20),
+              Container(child: Text(" Riwayat Konversi")),
+              ValueListenableBuilder(
+                  valueListenable: _result,
+                  builder: (context, value, child) {
+                    return Expanded(
+                        child: ListView.builder(
+                            itemCount: listHistory.length,
+                            itemBuilder: (context, index) {
+                              return Text(listHistory[index]);
+                            }));
+                  })
             ],
           ),
         ),
