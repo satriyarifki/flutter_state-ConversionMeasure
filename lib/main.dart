@@ -15,7 +15,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: const MyHomePage(title: 'Measure Converter'),
     );
   }
 }
@@ -58,11 +58,16 @@ class _MyHomePageState extends State<MyHomePage> {
       if (newValue == "inch") {
         result = input * 0.393701;
         _result.value = result;
-        listHistory.add(newValue.toString() + " : " + result.toString());
+        if (result != 0) {
+          listHistory.add(newValue.toString() + " : " + result.toString());
+        }
       } else {
         result = input * 0.0328084;
         _result.value = result;
-        listHistory.add(newValue.toString() + " : " + result.toString());
+        if (result != 0) {
+          listHistory.add(newValue.toString() + " : " + result.toString());
+        }
+        
       }
     });
   }
@@ -81,22 +86,38 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Center(
           child: Column(
             children: <Widget>[
+              SizedBox(height: 15,),
               Container(
                   width: 200,
-                  height: 70,
-                  margin: EdgeInsets.symmetric(vertical: 30),
                   child: TextField(
+                    textAlign: TextAlign.center,
+                    decoration: InputDecoration(
+                      suffixText: "cm",
+                      suffixStyle: TextStyle(fontSize: 18),
+                      hintText: "Insert Number",
+                      hintStyle: TextStyle(fontSize: 15),
+                      alignLabelWithHint: true,
+                      border: OutlineInputBorder(),
+                    ),
                     controller: inputController,
                     keyboardType: TextInputType.number,
                     onChanged: (String value) {
                       dropdownOnChanged();
                     },
                   )),
+              SizedBox(height: 15,),
+              Container(
+                child: Text(
+                  "To",
+                  style: TextStyle(fontSize: 15),
+                ),
+              ),
+              SizedBox(height: 10,),
               Container(
                   child: DropdownButton(
                 items: ListItem.map((String value) {
                   return DropdownMenuItem<String>(
-                      value: value, child: Text(value));
+                      value: value, child: Text(value, style: TextStyle(fontSize: 20)));
                 }).toList(),
                 value: newValue,
                 onChanged: (changeValue) {
@@ -106,27 +127,35 @@ class _MyHomePageState extends State<MyHomePage> {
                   dropdownOnChanged();
                 },
               )),
+              SizedBox(height: 15,),
               Container(
-                child: Text(result.toString()),
+                height: 40,
+                alignment: Alignment.center,
+                width: double.infinity,
+                color: Colors.lightBlue,
+                child: Text(result.toString() + " " + newValue.toString(), style: TextStyle(fontSize: 25, color: Colors.white)),
               ),
-              Container(
-                child: Text(
-                  "Konversi",
-                  style: TextStyle(fontSize: 15),
-                ),
+              SizedBox(height: 15,),
+              Divider(
+                color: Colors.blueGrey,
               ),
               SizedBox(height: 20),
-              Container(child: Text(" Riwayat Konversi")),
-              ValueListenableBuilder(
-                  valueListenable: _result,
-                  builder: (context, value, child) {
-                    return Expanded(
-                        child: ListView.builder(
-                            itemCount: listHistory.length,
-                            itemBuilder: (context, index) {
-                              return Text(listHistory[index]);
-                            }));
-                  })
+              Container(child: Text(" Riwayat Konversi", style: TextStyle(fontSize: 17, ))),
+              Container(
+                child: ValueListenableBuilder(
+                    valueListenable: _result,
+                    builder: (context, value, child) {
+                      return Expanded(
+                          child: Container(
+                            margin: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                            child: ListView.builder(
+                                itemCount: listHistory.length,
+                                itemBuilder: (context, index) {
+                                  return Text(listHistory[index], style: TextStyle(fontSize: 17),);
+                                }),
+                          ));
+                    }),
+              )
             ],
           ),
         ),
